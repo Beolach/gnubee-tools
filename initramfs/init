@@ -73,7 +73,7 @@ need_fix_interfaces() {
 }
 
 gnubee_switch_root(){
-    echo "Partition GNUBEE-ROOT found. Starting..." > /dev/kmsg
+    echo "Partition ${GNUBEE-ROOT} found. Starting..." > /dev/kmsg
     r=`uname -r`
     if [ -d /mnt/root/lib/modules/$r ] &&
        [ -f /mnt/root/lib/modules/stamp ] &&
@@ -175,6 +175,8 @@ gnubee_boot(){
     sleep 2
 
     # Load a config file
+    GNUBEE_ROOT=GNUBEE_ROOT
+    export GNUBEE_ROOT
     blkid -t TYPE=vfat -o device | while read path; do
         modprobe vfat
         if mount -t vfat $path /mnt; then
@@ -216,7 +218,7 @@ gnubee_boot(){
         run_shell /dev/ttyS0
     fi
 
-    echo -n "Searching for partition GNUBEE-ROOT..." > /dev/kmsg
+    echo -n "Searching for partition ${GNUBEE-ROOT}..." > /dev/kmsg
     set_led system 200 800
 
     if test -x /bin/mdadm; then
@@ -239,7 +241,7 @@ gnubee_boot(){
             cryptsetup open "$crypt_root" rootdev
             root_dev="/dev/mapper/rootdev"
         else
-            root_dev=`findfs LABEL=GNUBEE-ROOT`
+            root_dev=`findfs LABEL="${GNUBEE-ROOT}"`
         fi
 
         mounttype=

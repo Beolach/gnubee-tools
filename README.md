@@ -10,8 +10,9 @@ image to boot into the Linux kernel.
 A normal boot requires that a root filesystem already exists;
 this can be on an SD card, USB storage, or SATA device (including
 md-raid or LVM2).
-This filesystem must be named "GNUBEE-ROOT" and `findfs` must be able
-to find it.  The default config builds support for xfs, ext4, and btrfs.
+This filesystem must be labeled ("GNUBEE-ROOT" by default) and `findfs`
+must be able to find it.  The default config builds support for xfs,
+ext4, and btrfs.
 
 This package contains config files and scripts to build a kernel
 and an initramfs, in a format that can be written to flash.
@@ -166,6 +167,13 @@ meaningful.
 
 - `CONSOLE_SHELL=yes` - this is equivalent to not finding `GNUBEE-ROOT`;
    a console shell is run, but the network is not configured.
+
+- `GNUBEE-ROOT=GNUBEE-ROOT` - this allows you to change the label to
+   look for when mounting the root filesystem.  For example, if you
+   normally boot with the default filesystem labeled GNUBEE-ROOT,
+   but also have another filesystem labeled GNUBEE-RESCUE and want
+   to boot with that root filesystem, you can edit gnubee-config.txt
+   and add `GNUBEE-ROOT=GNUBEE-RESCUE`.
 
 Once you are logged in you can modify the network configuration (if,
 for example, you want some other static IP, or need to specify a
